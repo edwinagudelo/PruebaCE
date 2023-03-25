@@ -1,0 +1,10 @@
+# Directorios a omitir
+[Dd]ebug/
+[Rr]elease/
+_UpgradeReport_Files/
+
+# Archivos a omitir
+*.old
+*.ncb
+*.user
+*.exe

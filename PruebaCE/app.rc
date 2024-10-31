@@ -29,7 +29,7 @@ LANGUAGE LANG_SPANISH, SUBLANG_SPANISH_COLOMBIA
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
 1                       ICON                    "app.ico"
-IDI_ICON1               ICON                    "C:\\Users\\Henry\\Pictures\\bombillo_icon1.ico"
+IDI_ICON1               ICON                    "C:\\Users\\eagud\\source\\repos\\PruebaCE\\ResourcesExt\\bombillo_icon1.ico"
 
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////

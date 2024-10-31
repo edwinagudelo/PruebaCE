@@ -2,9 +2,13 @@
 [Dd]ebug/
 [Rr]elease/
 _UpgradeReport_Files/
+Backup/
+.vs/
 
 # Archivos a omitir
 *.old
 *.ncb
 *.user
 *.exe
+*.filters
+*.dll

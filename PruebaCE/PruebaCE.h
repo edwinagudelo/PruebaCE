@@ -4,7 +4,6 @@
 
 #include "SelFecha.h"
 #include "VerTabla.h"
-//#include "ExportaTablaExcel.h"
 
 using namespace System;
 using namespace System::Text;
@@ -13,7 +12,6 @@ namespace PruebaCE {
 
 	public ref class FuncVarias
 	{
-		// TODO: Add your methods for this class here.
 	public:
 
 		// Convertir de Ansi a UTF8

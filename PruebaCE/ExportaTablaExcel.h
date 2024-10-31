@@ -272,7 +272,6 @@ namespace PruebaCE {
 			int j = 1;
 			hoja->Range["1:1",Type::Missing]->Font->Bold = true;
 			for each (DataColumn^ colum in dt->Columns){
-				//MessageBox::Show("Columna " + colum->ColumnName + " Tipo " + colum->DataType->ToString());
 				((Excel::Range^)hoja->Cells[i,j])->Value2 = colum->ColumnName;
 				j++;
 			}
@@ -301,8 +300,6 @@ namespace PruebaCE {
 			}
 			Close();
 			hoja->Columns->AutoFit();
-			//xls->Visible = true;
-			//libro->SaveAs(path,Type::Missing,Type::Missing,Type::Missing,Type::Missing,Type::Missing,Excel::XlSaveAsAccessMode::xlNoChange,Type::Missing,Type::Missing,Type::Missing,Type::Missing,Type::Missing);
 			libro->Close(true,path,Type::Missing);
 			delete hoja;
 			delete libro;

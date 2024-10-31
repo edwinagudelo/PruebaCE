@@ -1,20 +1,36 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PruebaCE", "PruebaCE\PruebaCE.vcproj", "{A898AF33-D7C1-457F-9769-BDAC91A57CBA}"
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.11.35327.3
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PruebaCE", "PruebaCE\PruebaCE.vcxproj", "{A898AF33-D7C1-457F-9769-BDAC91A57CBA}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8EE906CC-A98B-471A-92DA-1C9EA1678A5B}"
+	ProjectSection(SolutionItems) = preProject
+		Readme.md = Readme.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
+		Debug|x64 = Debug|x64
 		Release|Win32 = Release|Win32
+		Release|x64 = Release|x64
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{A898AF33-D7C1-457F-9769-BDAC91A57CBA}.Debug|Win32.ActiveCfg = Debug|Win32
 		{A898AF33-D7C1-457F-9769-BDAC91A57CBA}.Debug|Win32.Build.0 = Debug|Win32
+		{A898AF33-D7C1-457F-9769-BDAC91A57CBA}.Debug|x64.ActiveCfg = Debug|x64
+		{A898AF33-D7C1-457F-9769-BDAC91A57CBA}.Debug|x64.Build.0 = Debug|x64
 		{A898AF33-D7C1-457F-9769-BDAC91A57CBA}.Release|Win32.ActiveCfg = Release|Win32
 		{A898AF33-D7C1-457F-9769-BDAC91A57CBA}.Release|Win32.Build.0 = Release|Win32
+		{A898AF33-D7C1-457F-9769-BDAC91A57CBA}.Release|x64.ActiveCfg = Release|x64
+		{A898AF33-D7C1-457F-9769-BDAC91A57CBA}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {07CC6B21-2506-4B37-B419-C29C6D66E8DB}
 	EndGlobalSection
 EndGlobal

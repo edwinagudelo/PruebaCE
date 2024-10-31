@@ -239,7 +239,7 @@
     <ResourceCompile Include="app.rc" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="ReadMe.txt" />
+    <Text Include="Readme.md" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="ExportaTablaExcel.resx">

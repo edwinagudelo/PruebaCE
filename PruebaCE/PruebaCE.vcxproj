@@ -160,6 +160,21 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <Reference Include="log4net">
+      <HintPath>..\ResourcesExt\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.Core">
+      <HintPath>..\ResourcesExt\NPOI.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OOXML">
+      <HintPath>..\ResourcesExt\NPOI.OOXML.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OpenXml4Net">
+      <HintPath>..\ResourcesExt\NPOI.OpenXml4Net.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OpenXmlFormats">
+      <HintPath>..\ResourcesExt\NPOI.OpenXmlFormats.dll</HintPath>
+    </Reference>
     <Reference Include="System">
       <HintPath>System.dll</HintPath>
       <CopyLocalSatelliteAssemblies>true</CopyLocalSatelliteAssemblies>
@@ -204,6 +219,7 @@
     <ClCompile Include="AssemblyInfo.cpp" />
     <ClCompile Include="ExportaTablaExcel.cpp" />
     <ClCompile Include="Login1.cpp" />
+    <ClCompile Include="NPOIExportService.cpp" />
     <ClCompile Include="PruebaCE.cpp" />
     <ClCompile Include="SelFecha.cpp" />
     <ClCompile Include="Stdafx.cpp">
@@ -218,9 +234,11 @@
     <ClInclude Include="ExportaTablaExcel.h">
       <FileType>CppForm</FileType>
     </ClInclude>
+    <ClInclude Include="IExportService.h" />
     <ClInclude Include="Login1.h">
       <FileType>CppForm</FileType>
     </ClInclude>
+    <ClInclude Include="NPOIExportService.h" />
     <ClInclude Include="PruebaCE.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="SelFecha.h">

@@ -138,8 +138,9 @@ namespace PruebaCE {
 	private: System::Void btnExportar_Click(System::Object^  sender, System::EventArgs^  e) {
 				 ExportaTablaExcel^ dlgExp = gcnew ExportaTablaExcel();
 				 dlgExp->varTabla = dt;
-				 dlgExp->varTexto = false;
-				 dlgExp->Exportar();
+				 dlgExp->OutPath = Environment::GetFolderPath(Environment::SpecialFolder::MyDocuments);
+				 dlgExp->FileName = dt->TableName;
+				 dlgExp->Show();
 			 }
 private: System::Void btnAceptar_Click(System::Object^  sender, System::EventArgs^  e) {
 			 Close();

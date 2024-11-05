@@ -243,6 +243,7 @@
     </ClInclude>
     <ClInclude Include="NPOIExportService.h" />
     <ClInclude Include="PruebaCE.h" />
+    <ClInclude Include="PruebaCEHelper.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="SelFecha.h">
       <FileType>CppForm</FileType>

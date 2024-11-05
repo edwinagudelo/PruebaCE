@@ -7,10 +7,10 @@ using namespace System;
 using namespace System::ComponentModel;
 using namespace System::Collections;
 using namespace System::Data;
+using namespace System::Diagnostics;
 using namespace System::Drawing;
 using namespace System::Text;
 using namespace System::Windows::Forms;
-using namespace Microsoft::Office::Interop;
 
 using namespace Infrastructure;
 
@@ -66,6 +66,7 @@ namespace PruebaCE {
 		IExportService^ exportService;
 		String^ filename;
 		String^ path;
+		static ILog^ _logger = LogManager::GetLogger("ExportaTablaExcel");
 
 
 	private:
@@ -216,186 +217,41 @@ namespace PruebaCE {
 		}
 #pragma endregion
 
-	public:
-
-		// Funcion que se encarga de exportar a Excel una tabla previamente cargada
-		int Exportar(void)
-		{
-			this->Show();
-			cancel = false;
-			int totalRegs = 0;
-			int iTransferidas = 0;
-			// Arranco validando la informacion de la tabla
-			if(dt->Rows->Count == 0){
-				MessageBox::Show("No hay registros a exportar","Atencion",MessageBoxButtons::OK,MessageBoxIcon::Exclamation);
-				Close();
-				return 0;
-			}
-			totalRegs = dt->Rows->Count;
-			// El progreso total
-			pgbTotal->Minimum = 0;
-			pgbTotal->Maximum = totalRegs;
-			pgbTotal->Step = 1;
-			pgbTotal->Value = 0;
-			// El progreso parcial
-			pgbParcial->Minimum = 0;
-			pgbParcial->Maximum = dt->Columns->Count;
-			pgbParcial->Step = 1;
-			pgbParcial->Value = 0;
-			// Ahora comienzo a configurar el objeto XLS
-			Excel::Application^ xls = gcnew Excel::Application();
-			Excel::Workbook^ libro = (Excel::Workbook^)xls->Workbooks->Add(Type::Missing);
-			Excel::Worksheet^ hoja = (Excel::Worksheet^)libro->ActiveSheet;
-			// Ahora arranco a escribir los encabezados de la tabla
-			int i = 1;
-			int j = 1;
-			hoja->Range["1:1",Type::Missing]->Font->Bold = true;
-			for each (DataColumn^ colum in dt->Columns){
-				((Excel::Range^)hoja->Cells[i,j])->Value2 = colum->ColumnName;
-				j++;
-			}
-			i++;
-			// Ahora escribo los registros de la tabla
-			for each (DataRow^ fila in dt->Rows){
-				if(cancel)break;
-				pgbParcial->Value = 1;
-				j = 1;
-				for each(DataColumn^ col in dt->Columns){
-					if(EnTexto){
-						((Excel::Range^)hoja->Cells[i,j])->NumberFormat = "@";
-					}
-					if(EsUtf8){
-						((Excel::Range^)hoja->Cells[i,j])->Value2 = UTF82Ansi(fila[(j-1)]->ToString());
-					}
-					else{
-						((Excel::Range^)hoja->Cells[i,j])->Value2 = fila[(j-1)]->ToString();
-					}
-					j++;
-					pgbParcial->PerformStep();
-				}
-				i++;
-				iTransferidas++;
-				pgbTotal->PerformStep();
-			}
-			Close();
-			hoja->Columns->AutoFit();
-			xls->Visible = true;
-			return iTransferidas;
-		}
-
-		// Esta funcion transfiere la tabla a Excel y al final guarda el libro en un path que se le indique
-		int Exportar(String^ path,bool silencio)
-		{
-			if(!silencio)this->Show();
-			cancel = false;
-			int totalRegs = 0;
-			int iTransferidas = 0;
-			// Arranco validando la informacion de la tabla
-			if(dt->Rows->Count == 0){
-				MessageBox::Show("No hay registros a exportar","Atencion",MessageBoxButtons::OK,MessageBoxIcon::Exclamation);
-				Close();
-				return 0;
-			}
-			totalRegs = dt->Rows->Count;
-			// El progreso total
-			pgbTotal->Minimum = 0;
-			pgbTotal->Maximum = totalRegs;
-			pgbTotal->Step = 1;
-			pgbTotal->Value = 0;
-			// El progreso parcial
-			pgbParcial->Minimum = 0;
-			pgbParcial->Maximum = dt->Columns->Count;
-			pgbParcial->Step = 1;
-			pgbParcial->Value = 0;
-			// Ahora comienzo a configurar el objeto XLS
-			Excel::Application^ xls = gcnew Excel::Application();
-			Excel::Workbook^ libro = (Excel::Workbook^)xls->Workbooks->Add(Type::Missing);
-			Excel::Worksheet^ hoja = (Excel::Worksheet^)libro->ActiveSheet;
-			// Ahora arranco a escribir los encabezados de la tabla
-			int i = 1;
-			int j = 1;
-			hoja->Range["1:1",Type::Missing]->Font->Bold = true;
-			for each (DataColumn^ colum in dt->Columns){
-				((Excel::Range^)hoja->Cells[i,j])->Value2 = colum->ColumnName;
-				j++;
-			}
-			i++;
-			// Ahora escribo los registros de la tabla
-			for each (DataRow^ fila in dt->Rows){
-				if(cancel)break;
-				pgbParcial->Value = 1;
-				j = 1;
-				for each(DataColumn^ col in dt->Columns){
-					if(EnTexto){
-						((Excel::Range^)hoja->Cells[i,j])->NumberFormat = "@";
-					}
-					if(EsUtf8){
-						((Excel::Range^)hoja->Cells[i,j])->Value2 = UTF82Ansi(fila[(j-1)]->ToString());
-					}
-					else{
-						((Excel::Range^)hoja->Cells[i,j])->Value2 = fila[(j-1)]->ToString();
-					}
-					j++;
-					pgbParcial->PerformStep();
-				}
-				i++;
-				iTransferidas++;
-				pgbTotal->PerformStep();
-			}
-			Close();
-			hoja->Columns->AutoFit();
-			libro->Close(true,path,Type::Missing);
-			delete hoja;
-			delete libro;
-			xls->Quit();
-			delete xls;
-			return iTransferidas;
-		}
-
-
-		public:
-
-		// Convertir de Ansi a UTF8
-		String^ Ansi2UTF8(String^ varCadena)
-		{
-			Encoding^ encoder1 = Encoding::ASCII;
-			UTF8Encoding^ encoder2 = gcnew UTF8Encoding();
-			ASCIIEncoding^ encoder3 = gcnew ASCIIEncoding();
-			array<Byte>^ bascii = encoder1->GetBytes(varCadena);
-			array<Byte>^ butf8 = encoder3->Convert(Encoding::ASCII,Encoding::UTF8,bascii);
-			String^ retorno = encoder2->GetString(butf8);
-			return retorno;
-		}
-
-		// Conversion UTF8 a Ansi
-		String^ UTF82Ansi(String^ varCadena)
-		{
-			Encoding^ encoder1 = Encoding::UTF8;
-			UTF8Encoding^ encoder2 = gcnew UTF8Encoding();
-			ASCIIEncoding^ encoder3 = gcnew ASCIIEncoding();
-			array<Byte>^ butf8 = encoder1->GetBytes(varCadena);
-			array<Byte>^ bascii = encoder2->Convert(Encoding::UTF8,Encoding::ASCII,butf8);
-			String^ retorno = encoder3->GetString(bascii);
-			return retorno;
-		}
 private: System::Void ExportaTablaExcel_Load(System::Object^  sender, System::EventArgs^  e) {
-			exportService->SetData(dt);
-			exportService->SetFilename(filename);
-			exportService->SetPath(path);
-			exportService->ProgressReportEvent += gcnew Infrastructure::exportProgress(this, &ExportaTablaExcel::bgwExporter_ProgressChanged);
-			bgwExporter->RunWorkerAsync();
-		 }
+	// Setup the export service
+	exportService->SetData(dt);
+	exportService->SetFilename(filename);
+	exportService->SetPath(path);
+	exportService->ProgressReportEvent += gcnew Infrastructure::exportProgress(this, &ExportaTablaExcel::bgwExporter_ProgressChanged);
+
+	// Setup the progress bar
+	pgbParcial->Minimum = 0;
+	pgbParcial->Maximum = dt->Rows->Count;
+	pgbParcial->Step = 1;
+
+	pgbTotal->Minimum = 0;
+	pgbTotal->Maximum = dt->Rows->Count;
+	pgbTotal->Step = 1;
+
+	// Execute the thread
+	bgwExporter->RunWorkerAsync();
+}
+
 private: System::Void btnCancelar_Click(System::Object^  sender, System::EventArgs^  e) {
-			 if(MessageBox::Show("¿Desea cancelar la transferencia?","Atencion",MessageBoxButtons::YesNo,MessageBoxIcon::Exclamation) == ::DialogResult::Yes){
-				 cancel = true;
-			 }
-		 }
+	if(MessageBox::Show("¿Desea cancelar la transferencia?","Atencion",MessageBoxButtons::YesNo,MessageBoxIcon::Exclamation) == ::DialogResult::Yes){
+		exportService->CancelExport();
+	}
+}
+
 private: System::Void bgwExporter_DoWork(System::Object^ sender, System::ComponentModel::DoWorkEventArgs^ e) {
-			int exported = exportService->Export();
+	int exported = exportService->Export();
 }
 private: System::Void bgwExporter_ProgressChanged(System::Object^ sender, System::ComponentModel::ProgressChangedEventArgs^ e) {
+	pgbParcial->PerformStep();
+	pgbTotal->PerformStep();
 }
 private: System::Void bgwExporter_RunWorkerCompleted(System::Object^ sender, System::ComponentModel::RunWorkerCompletedEventArgs^ e) {
+	Process::Start(path + Path::DirectorySeparatorChar + filename);
 }
 };
 }

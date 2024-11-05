@@ -14,6 +14,7 @@ namespace Infrastructure {
 		IExportService^ SetPath(String^ path);
 		IExportService^ SetFilename(String^ filename);
 		int Export();
+		void CancelExport();
 		event exportProgress^ ProgressReportEvent;
 	};
 

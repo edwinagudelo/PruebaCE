@@ -52,8 +52,9 @@ int NPOIExportService::Export() {
 			}
 			irow++;
 		}
+		rowsexp = irow - 1;
 
-		String^ finalname = _path + Path::PathSeparator + _filename;
+		String^ finalname = _path + Path::DirectorySeparatorChar + _filename;
 		FileStream^ fs = gcnew FileStream(finalname, FileMode::Create);
 		_logger->InfoFormat("Exporting data to {0}", finalname);
 		workbook->Write(fs, false);

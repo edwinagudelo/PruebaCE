@@ -32,6 +32,10 @@ int NPOIExportService::Export() {
 	this->ProgressReportEvent += gcnew exportProgress(this, &NPOIExportService::reportprogress);
 
 	// TODO: data validation
+	if (this->_data == nullptr) {
+		_logger->Info("Theres no data to export");
+		return 0;
+	}
 
 	try {
 		IWorkbook^ workbook = createfile();
@@ -42,6 +46,9 @@ int NPOIExportService::Export() {
 		writeheaders(sheet, workbook);
 		int irow = 1;
 		for each (DataRow ^ dr in _data->Rows) {
+			if (_cancelProcess) {
+				break;
+			}
 			IRow^ row = sheet->CreateRow(irow);
 			int icol = 0;
 			for each (DataColumn^ col in _data->Columns) {
@@ -51,6 +58,7 @@ int NPOIExportService::Export() {
 				icol++;
 			}
 			irow++;
+			ProgressChangedEventArgs^ progress = gcnew ProgressChangedEventArgs(irow, nullptr);
 		}
 		rowsexp = irow - 1;
 
@@ -64,6 +72,14 @@ int NPOIExportService::Export() {
 	}
 	_logger->InfoFormat("Exported {0}", rowsexp);
 	return rowsexp;
+}
+
+void NPOIExportService::CancelExport() {
+	Monitor::Enter(_cancelProcess);
+	if (!_cancelProcess) {
+		_cancelProcess = true;
+	}
+	Monitor::Exit(_cancelProcess);
 }
 
 #pragma region private methods

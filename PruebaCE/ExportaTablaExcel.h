@@ -3,6 +3,7 @@
 #include "IExportService.h"
 #include "NPOIExportService.h"
 
+using namespace log4net;
 using namespace System;
 using namespace System::ComponentModel;
 using namespace System::Collections;
@@ -218,6 +219,8 @@ namespace PruebaCE {
 #pragma endregion
 
 private: System::Void ExportaTablaExcel_Load(System::Object^  sender, System::EventArgs^  e) {
+	//
+	_logger->Info("Starting the export");
 	// Setup the export service
 	exportService->SetData(dt);
 	exportService->SetFilename(filename);
@@ -245,6 +248,7 @@ private: System::Void btnCancelar_Click(System::Object^  sender, System::EventAr
 
 private: System::Void bgwExporter_DoWork(System::Object^ sender, System::ComponentModel::DoWorkEventArgs^ e) {
 	int exported = exportService->Export();
+	_logger->InfoFormat("Rows exported {0}", exported);
 }
 private: System::Void bgwExporter_ProgressChanged(System::Object^ sender, System::ComponentModel::ProgressChangedEventArgs^ e) {
 	pgbParcial->PerformStep();
@@ -252,6 +256,7 @@ private: System::Void bgwExporter_ProgressChanged(System::Object^ sender, System
 }
 private: System::Void bgwExporter_RunWorkerCompleted(System::Object^ sender, System::ComponentModel::RunWorkerCompletedEventArgs^ e) {
 	Process::Start(path + Path::DirectorySeparatorChar + filename);
+	_logger->Info("The export process has finished");
 }
 };
 }

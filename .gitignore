@@ -4,6 +4,8 @@
 _UpgradeReport_Files/
 Backup/
 .vs/
+bin/
+obj/
 
 # Archivos a omitir
 *.old
